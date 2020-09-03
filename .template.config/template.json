@@ -1,0 +1,15 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Mathias de Mestral",
+  "classifications": [ "WebApi", "Continental" ],
+  "identity": "apibanking",
+  "name": "WebApi Banco Continental",
+  "shortName": "apibanking",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "preferNameDirectory": false,
+  "sourceName": "ApiBanking.ProjectBase",
+  "exclude": ["**/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json", "**/.idea", "*.zip", "*.bk", "**/*.DotSettings.user"]
+}
