@@ -65,9 +65,9 @@ namespace Continental.API.WebApi
             app.UseSerilogRequestLogging(opts
                 => opts.EnrichDiagnosticContext = LogRequestEnricher.EnrichFromRequest);
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseSwagger()
                 .UseSwaggerUI(c =>
