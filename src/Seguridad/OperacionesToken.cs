@@ -316,6 +316,27 @@ namespace Continental.API.Seguridad
 
 				if ( recurso == null )
 				{
+					return GetRecursoRegex(laLista, valor);
+				}
+
+				return recurso;
+			}
+			catch ( Exception ex )
+			{
+				throw ex;
+			}
+		}
+
+		RecursoRol GetRecursoRegex(List<RecursoRol> recursos, string valor)
+		{
+			try
+			{
+				var recurso = recursos
+					.Where ( t => Regex.IsMatch(valor.ToLower(), t.Recurso.ToLower()) )
+					.FirstOrDefault();
+
+				if (recurso == null)
+				{
 					return null;
 				}
 
