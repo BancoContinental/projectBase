@@ -1,35 +1,24 @@
 ﻿using System;
 using System.Data;
 using System.Threading.Tasks;
-using Continental.API.Core.Entities;
 using Continental.API.Core.Interfaces;
 using Continental.API.Infrastructure.DatabaseHelpers;
-using Continental.API.Infrastructure.Settings;
-using Continental.API.Infrastructure.Settings.DataBase;
 using Dapper;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Continental.API.Infrastructure.Repositories
 {
     public class DapperFechasRepository : IFechasRepository
     {
-        private readonly ConexionBD _conexiones;
-
-        private readonly string _connectionStringGenerico;
-
         private readonly string _connectionStringConsulta;
 
-        public DapperFechasRepository(IOptions<Configuraciones> configuraciones)
+        public DapperFechasRepository(IConfiguration configuration)
         {
-            _conexiones = new ConexionBD(configuraciones.Value.SeteosBD);
-
-            _connectionStringGenerico = _conexiones.GetCadenaDeConexion(TiposCredenciales.GENERICO, TiposDataSource.DATOSITA);
-
-            _connectionStringConsulta = _conexiones.GetCadenaDeConexion(TiposCredenciales.SERVICIOS_CONSULTA, TiposDataSource.DATOSITA);
+            _connectionStringConsulta = configuration.GetConnectionString("ServicioConsulta");
         }
 
-        public async Task<bool> EsDiaHabil(DateTime fecha, CredencialesFinansys credenciales = null)
+        public async Task<bool> EsDiaHabil(DateTime fecha)
         {
             using (var connection = new OracleConnection(_connectionStringConsulta))
             {
