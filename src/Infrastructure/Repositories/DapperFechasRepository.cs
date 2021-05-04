@@ -15,7 +15,7 @@ namespace Continental.API.Infrastructure.Repositories
 
         public DapperFechasRepository(IConfiguration configuration)
         {
-            _connectionStringConsulta = configuration.GetConnectionString("ServicioConsulta");
+            _connectionStringConsulta = configuration.GetConnectionString("ApiConsulta");
         }
 
         public async Task<bool> EsDiaHabil(DateTime fecha)
