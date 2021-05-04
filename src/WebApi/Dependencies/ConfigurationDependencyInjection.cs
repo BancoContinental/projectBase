@@ -7,9 +7,6 @@ namespace Continental.API.WebApi.Dependencies
     {
         public static IServiceCollection AgregarConfiguraciones(this IServiceCollection services, IConfiguration configuration)
         {
-            // mapeo de configuracion a objeto -> capa Seguridad
-            services.Configure<Seguridad.Settings.Configuraciones>(configuration.GetSection("Configuraciones"));
-
             return services;
         }
     }

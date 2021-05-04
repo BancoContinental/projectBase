@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Threading.Tasks;
-using Continental.API.Core.Entities;
 using Continental.API.Core.Interfaces;
 using Continental.API.Infrastructure.DatabaseHelpers;
 using Dapper;
@@ -19,7 +18,7 @@ namespace Continental.API.Infrastructure.Repositories
             _connectionStringConsulta = configuration.GetConnectionString("ApiConsulta");
         }
 
-        public async Task<bool> EsDiaHabil(DateTime fecha, CredencialesFinansys credenciales = null)
+        public async Task<bool> EsDiaHabil(DateTime fecha)
         {
             using (var connection = new OracleConnection(_connectionStringConsulta))
             {

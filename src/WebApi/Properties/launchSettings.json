@@ -13,9 +13,10 @@
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://localhost:5001;http://localhost:5002",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "HTTP_PROXY": ""
       }
     },
     "IIS Express": {
@@ -23,7 +24,16 @@
       "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "HTTP_PROXY": "",
+        "Keycloak:Jwt:Audience": "webapi",
+        "Keycloak:Jwt:Authority": "http://10.6.2.40:18080/auth/realms/api-continental",
+        "Keycloak:Jwt:Issuer": "http://10.6.2.40:18080/auth/realms/api-continental",
+        "Keycloak:Jwt:RequireHttps": "false",
+        "Keycloak:Jwt:SigninKey": "TOO1zLmG_71cTMit9Vk0pCYY5KTU3dab09IY9YUTyT8",
+        "ConnectionStrings:ServicioConsulta": "User Id=API_CONSULTA;Password=a.123456;Data Source=10.6.2.148/dbitades;Connection Timeout=120;Pooling=false",
+        "ConnectionStrings:ServicioSeguridad": "User Id=API_LOGIN;Password=a.123456;Data Source=10.6.2.148/dbitades;Connection Timeout=120;Pooling=false",
+        "ConnectionStrings:Template": "User Id={0};Password={1};Data Source=10.6.2.148/dbitades;Connection Timeout=120;Pooling=false"
       }
     }
   }

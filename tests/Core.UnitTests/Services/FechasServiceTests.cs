@@ -56,7 +56,7 @@ namespace Core.UnitTests.Services
             var fecha  = hoy.AddDays(sabado - (int)hoy.DayOfWeek - 1);
 
             _repository.Setup(r
-                => r.EsDiaHabil(fecha, null))
+                => r.EsDiaHabil(fecha))
                 .Returns(Task.FromResult(true));
 
             var resultado = await _service.EsDiaHabil(fecha);
