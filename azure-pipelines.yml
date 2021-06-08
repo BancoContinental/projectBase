@@ -14,22 +14,26 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
+  name: restore
   inputs:
     command: 'restore'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
+  name: compilacion
   inputs:
     command: 'build'
     arguments: '-c $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  name: publicado
   inputs:
     command: 'publish'
     publishWebProjects: true
     arguments: '--no-restore -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
+  name: artefactos
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
