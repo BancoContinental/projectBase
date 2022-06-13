@@ -29,6 +29,19 @@ spec:
               protocol: TCP
             - containerPort: 81
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              port: 80
+              path: /liveness
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              port: 80
+              path: /readiness
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            timeoutSeconds: 5
           envFrom:
             - configMapRef:
                 name: {{ .Values.releaseName }}-env

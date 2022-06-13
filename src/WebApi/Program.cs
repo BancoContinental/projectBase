@@ -4,8 +4,10 @@ using Continental.API.Infrastructure;
 using Continental.API.WebApi.Dependencies;
 using Continental.API.WebApi.Logger;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.FeatureManagement;
 using Serilog;
 
 try
@@ -17,6 +19,8 @@ try
     Log.Information("Iniciando {ApplicationName}", builder.Configuration["Serilog:Properties:ApplicationName"]);
 
     builder.Services.AddHeaderPropagation()
+        .AddHttpContextAccessor()
+        .AddHealthChecks(builder.Configuration)
         .AgregarConfiguraciones(builder.Configuration)
         .AgregarCore()
         .AgregarInfraestructura()
@@ -24,7 +28,8 @@ try
         .AgregarVersionamientoApi(1, 0)
         .AgregarAutoMapper()
         .AddControllers()
-        .AgregarFluentValidation(builder.Services);
+        .AgregarFluentValidation(builder.Services)
+        .AddFeatureManagement();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -45,6 +50,15 @@ try
         => opts.EnrichDiagnosticContext = LogRequestEnricher.EnrichFromRequest);
 
     app.MapControllers();
+    app.MapHealthChecks("/readiness", new HealthCheckOptions
+    {
+        Predicate      = _ => true,
+        ResponseWriter = Extension.HealthChecksResponseWriter
+    });
+    app.MapHealthChecks("/liveness", new HealthCheckOptions
+    {
+        Predicate      = r => r.Name.Contains("self"),
+    });
 
     app.Run();
 }
