@@ -16,7 +16,8 @@ try
     builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
     Log.Information("Iniciando {ApplicationName}", builder.Configuration["Serilog:Properties:ApplicationName"]);
 
-    builder.Services.AgregarConfiguraciones(builder.Configuration)
+    builder.Services.AddHeaderPropagation()
+        .AgregarConfiguraciones(builder.Configuration)
         .AgregarCore()
         .AgregarInfraestructura()
         .AgregarDocumentacionSwagger(builder.Configuration["Serilog:Properties:ApplicationName"])
