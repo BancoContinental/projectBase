@@ -1,42 +1,57 @@
 using System;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Continental.API.Core;
+using Continental.API.Infrastructure;
+using Continental.API.WebApi.Dependencies;
+using Continental.API.WebApi.Logger;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Continental.API.WebApi
+try
 {
-    public class Program
+    var builder = WebApplication.CreateBuilder();
+
+    // Serilog
+    builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
+    Log.Information("Iniciando {ApplicationName}", builder.Configuration["Serilog:Properties:ApplicationName"]);
+
+    builder.Services.AgregarConfiguraciones(builder.Configuration)
+        .AgregarCore()
+        .AgregarInfraestructura()
+        .AgregarDocumentacionSwagger(builder.Configuration["Serilog:Properties:ApplicationName"])
+        .AgregarVersionamientoApi(1, 0)
+        .AgregarAutoMapper()
+        .AddControllers()
+        .AgregarFluentValidation(builder.Services);
+
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
     {
-        public static void Main(string[] args)
-        {
-
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(config)
-                .CreateLogger();
-
-            try
-            {
-                var applicationName = config["Serilog:Properties:ApplicationName"];
-                Log.Information($"Iniciando {applicationName}.");
-                CreateWebHostBuilder(args).Build().Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "La API fallo al iniciar.");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseSerilog();
+        app.UseDeveloperExceptionPage();
     }
+
+    app.UseSwagger();
+    app.UseSwaggerUI(o => { o.SwaggerEndpoint("/swagger/v1/swagger.json", builder.Configuration["Serilog:Properties:ApplicationName"]); });
+
+    app.UseSerilogRequestLogging(opts
+        => opts.EnrichDiagnosticContext = LogRequestEnricher.EnrichFromRequest);
+
+    app.MapControllers();
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "La API fallo al iniciar");
+}
+finally
+{
+    Log.CloseAndFlush();
 }

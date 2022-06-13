@@ -23,7 +23,7 @@ namespace Continental.API.WebApi.Dependencies
                         Name  = "Departamento de Tecnologia"
                     }
                 });
-                var xmlFile = Path.ChangeExtension(typeof(Startup).Assembly.Location, ".xml");
+                var xmlFile = Path.ChangeExtension(typeof(Program).Assembly.Location, ".xml");
                 c.IncludeXmlComments(xmlFile);
                 c.OperationFilter<RemoveVersionParameterFilter>();
                 c.DocumentFilter<ReplaceVersionWithExactValueInPathFilter>();
