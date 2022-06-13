@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.releaseName }}-env
+  labels:
+    service: {{ .Values.releaseName }}
+data:
+  ASPNETCORE_ENVIRONMENT: Production
+  ASPNETCORE_URLS: http://0.0.0.0:80
+  Serilog__WriteTo__1__Args__serverUrl: {{ .Values.config.seq | quote }}
+---

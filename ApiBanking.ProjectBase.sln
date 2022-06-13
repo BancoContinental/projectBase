@@ -22,6 +22,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{C45EDC4C-CF1D-4779-A916-5132F44E3665}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{A4BC3B36-8DB6-469A-B2E5-3C694760E01A}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\k8s\Chart.yaml = deploy\k8s\Chart.yaml
+		deploy\k8s\values.yaml = deploy\k8s\values.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{4ECDD1EA-EA9D-4946-B841-EEE98DFE47DF}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\k8s\templates\configmap.yaml = deploy\k8s\templates\configmap.yaml
+		deploy\k8s\templates\deployment.yaml = deploy\k8s\templates\deployment.yaml
+		deploy\k8s\templates\secret.yaml = deploy\k8s\templates\secret.yaml
+		deploy\k8s\templates\service.yaml = deploy\k8s\templates\service.yaml
+		deploy\k8s\templates\hpa.yaml = deploy\k8s\templates\hpa.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +49,9 @@ Global
 		{AD014796-CCDE-4D01-BB63-818FFB93E567} = {CC51DBC8-37BE-4659-AA32-D41249CFFF0D}
 		{76A865DE-0DFF-49E9-9E82-86114F3FB049} = {CC51DBC8-37BE-4659-AA32-D41249CFFF0D}
 		{006187B8-A9CB-490D-B842-FE974361B938} = {0AF79564-A989-4546-8F0D-092129343CDA}
+		{C45EDC4C-CF1D-4779-A916-5132F44E3665} = {B70C036B-5D82-40EC-9264-263C6479BF31}
+		{A4BC3B36-8DB6-469A-B2E5-3C694760E01A} = {C45EDC4C-CF1D-4779-A916-5132F44E3665}
+		{4ECDD1EA-EA9D-4946-B841-EEE98DFE47DF} = {A4BC3B36-8DB6-469A-B2E5-3C694760E01A}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EF2C5D99-6F58-42C7-AF63-980DE6BA6ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

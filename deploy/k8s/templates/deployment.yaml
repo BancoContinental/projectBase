@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.releaseName }}
+  labels:
+    service: {{ .Values.releaseName }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  revisionHistoryLimit: {{ .Values.deployment.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      service: {{ .Values.releaseName }}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.releaseName }}
+      annotations:
+        linkerd.io/inject: {{ .Values.serviceMesh.active | quote }}
+        config.linkerd.io/opaque-ports: "80 81"
+    spec:
+      imagePullSecrets:
+        - name: registry-pull
+      containers:
+        - name: {{ .Values.releaseName }}
+          image: {{ .Values.container.registry }}/{{ .Values.releaseName }}:{{ default .Chart.AppVersion  }}
+          imagePullPolicy: {{ .Values.container.imagePullPolicy }}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+            - containerPort: 81
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.releaseName }}-env
+            - secretRef:
+                name: {{ .Values.releaseName }}-secret
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+---

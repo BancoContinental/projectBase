@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.releaseName }}
+  labels:
+    service: {{ .Values.releaseName }}
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      name: http
+      {{- if .Values.service.isNodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+
+  selector:
+    service: {{ .Values.releaseName }}
+---
