@@ -11,7 +11,7 @@ namespace Continental.API.Infrastructure
             // Descomentar para usar Entity Framework Core
             // var config = services.BuildServiceProvider().GetService<IConfiguration>();
             // services.AddDbContext<OracleOracleDbContext>(o =>
-            //     o.UseOracle(config.GetConnectionString("ApiConsulta")));
+            //     o.UseOracle(config.GetConnectionString("Oracle")));
 
             // Cambiar por EfFechasRepository para usar Entity Framework Core
             services.AddTransient<IFechasRepository, DapperFechasRepository>();
