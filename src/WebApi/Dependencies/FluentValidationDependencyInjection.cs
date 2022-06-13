@@ -15,7 +15,7 @@ namespace Continental.API.WebApi.Dependencies
             mvc.AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Startup>();
-                config.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                config.DisableDataAnnotationsValidation = true;
             });
 
             services.AddTransient<IValidatorInterceptor, ValidatorInterceptor>();
@@ -33,20 +33,20 @@ namespace Continental.API.WebApi.Dependencies
             _logger = logger;
         }
 
-        public IValidationContext BeforeMvcValidation(ControllerContext controllerContext, IValidationContext commonContext)
+        public IValidationContext BeforeAspNetValidation(ActionContext actionContext, IValidationContext commonContext)
         {
             return commonContext;
         }
 
-        public ValidationResult AfterMvcValidation(ControllerContext controllerContext, IValidationContext commonContext,
+        public ValidationResult AfterAspNetValidation(ActionContext actionContext, IValidationContext validationContext,
             ValidationResult result)
         {
             try
             {
                 if (!result.IsValid)
                 {
-                    var model = commonContext.InstanceToValidate;
-                    var controller = $"{controllerContext.ActionDescriptor.ControllerName}.{controllerContext.ActionDescriptor.ActionName}";
+                    var model = validationContext.InstanceToValidate;
+                    var controller = $"{actionContext.ActionDescriptor.DisplayName}";
                     _logger.LogWarning("Modelo invalido en {controller} {@Request}", controller, model);
                 }
             }

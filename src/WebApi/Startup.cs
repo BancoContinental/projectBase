@@ -30,8 +30,7 @@ namespace Continental.API.WebApi
                 .AgregarVersionamientoApi(1, 0)
                 .AgregarAutoMapper()
                 .AddControllers()
-                .AgregarFluentValidation(services)
-                .AgregarKeycloak();
+                .AgregarFluentValidation(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
