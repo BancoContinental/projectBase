@@ -7,5 +7,6 @@ namespace Continental.API.Core.Interfaces
     public interface IFechasService
     {
         Task<DiaHabil> EsDiaHabil(DateTime fecha);
+        Task<Feriado> GetFeriado(DateOnly fecha);
     }
 }

@@ -4,6 +4,7 @@ namespace Continental.API.Core.Entities
 {
     public class Feriado
     {
-        public DateTime FechaFeriado { get; set; }
+        public DateTime Fecha { get; set; }
+        public string Dia { get; set; }
     }
 }

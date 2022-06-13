@@ -1,8 +1,7 @@
-﻿namespace Continental.API.WebApi.Models
+﻿namespace Continental.API.WebApi.Models;
+
+public record DiaHabil
 {
-    public class DiaHabil
-    {
-        public string Fecha { get; set; }
-        public string Mensaje { get; set; }
-    }
+    public string Fecha { get; set; }
+    public string Mensaje { get; set; }
 }

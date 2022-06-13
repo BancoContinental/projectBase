@@ -1,5 +1,8 @@
 ﻿using Continental.API.Core.Interfaces;
+using Continental.API.Infrastructure.Data;
 using Continental.API.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Continental.API.Infrastructure
@@ -8,13 +11,11 @@ namespace Continental.API.Infrastructure
     {
         public static IServiceCollection AgregarInfraestructura(this IServiceCollection services)
         {
-            // Descomentar para usar Entity Framework Core
-            // var config = services.BuildServiceProvider().GetService<IConfiguration>();
-            // services.AddDbContext<OracleOracleDbContext>(o =>
-            //     o.UseOracle(config.GetConnectionString("Oracle")));
+            var config = services.BuildServiceProvider().GetService<IConfiguration>();
+            services.AddDbContext<OracleDbContext>(o =>
+                o.UseOracle(config.GetConnectionString("Oracle")));
 
-            // Cambiar por EfFechasRepository para usar Entity Framework Core
-            services.AddTransient<IFechasRepository, DapperFechasRepository>();
+            services.AddTransient<IFechasRepository, FechasRepository>();
 
             return services;
         }

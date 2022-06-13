@@ -6,9 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Continental.API.WebApi.Controllers
 {
-    [Authorize]
     [ApiController]
-    [Route("v{version:apiVersion}/api/[controller]/[action]")]
+    [Route("v{version:apiVersion}/api/[controller]")]
     public abstract class BaseApiController : Controller
     {
         private readonly IMapper mapper;

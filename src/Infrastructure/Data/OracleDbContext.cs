@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Data
 {
-    public class OracleOracleDbContext : DbContext
+    public class OracleDbContext : DbContext
     {
         private readonly string _connectionString;
 
-        public OracleOracleDbContext(string connectionString)
+        public OracleDbContext(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public OracleOracleDbContext(DbContextOptions<OracleOracleDbContext> options) : base(options)
+        public OracleDbContext(DbContextOptions<OracleDbContext> options) : base(options)
         {
         }
 
@@ -35,8 +35,9 @@ namespace Continental.API.Infrastructure.Data
             modelBuilder.Entity<Feriado>(entity =>
             {
                 entity.ToTable("FERIADO", "WILSON1");
-                entity.HasKey(p => p.FechaFeriado);
-                entity.Property(e => e.FechaFeriado).HasColumnName("FER_FECHA");
+                entity.HasKey(p => p.Fecha);
+                entity.Property(e => e.Fecha).HasColumnName("FER_FECHA");
+                entity.Property(e => e.Dia).HasColumnName("FER_COMEN").IsUnicode(false);
             });
         }
     }

@@ -8,7 +8,6 @@ namespace Continental.API.Core
     {
         public static IServiceCollection AgregarCore(this IServiceCollection services)
         {
-            services.AddTransient<IWeatherForecastService, WeatherForecastService>();
             services.AddTransient<IFechasService, FechasService>();
 
             return services;
