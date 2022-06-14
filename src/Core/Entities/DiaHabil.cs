@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Continental.API.Core.Entities
+namespace Continental.API.Core.Entities;
+
+public class DiaHabil
 {
-    public class DiaHabil
-    {
-        public DateTime Fecha { get; set; }
-        public string Mensaje { get; set; }
-    }
+    public DateTime Fecha { get; set; }
+    public string Mensaje { get; set; }
 }

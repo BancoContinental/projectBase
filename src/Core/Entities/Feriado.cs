@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Continental.API.Core.Entities
+namespace Continental.API.Core.Entities;
+
+public class Feriado
 {
-    public class Feriado
-    {
-        public DateTime Fecha { get; set; }
-        public string Dia { get; set; }
-    }
+    public DateTime Fecha { get; set; }
+    public string Dia { get; set; }
 }

@@ -2,15 +2,14 @@
 using Continental.API.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Continental.API.Core
-{
-    public static class DependencyInjection
-    {
-        public static IServiceCollection AgregarCore(this IServiceCollection services)
-        {
-            services.AddTransient<IFechasService, FechasService>();
+namespace Continental.API.Core;
 
-            return services;
-        }
+public static class DependencyInjection
+{
+    public static IServiceCollection AgregarCore(this IServiceCollection services)
+    {
+        services.AddTransient<IFechasService, FechasService>();
+
+        return services;
     }
 }

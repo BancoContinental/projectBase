@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using Continental.API.Core.Entities;
 
-namespace Continental.API.Core.Interfaces
+namespace Continental.API.Core.Interfaces;
+
+public interface IFechasService
 {
-    public interface IFechasService
-    {
-        Task<DiaHabil> EsDiaHabil(DateTime fecha);
-        Task<Feriado> GetFeriado(DateOnly fecha);
-    }
+    Task<DiaHabil> EsDiaHabil(DateTime fecha);
+    Task<Feriado> GetFeriado(DateOnly fecha);
 }
