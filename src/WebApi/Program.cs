@@ -59,6 +59,10 @@ try
         Predicate      = r => r.Name.Contains("self"),
     });
 
+    app.MapGet("/", ()
+        => Results.Redirect("swagger", true))
+        .ExcludeFromDescription();
+
     app.Run();
 }
 catch (Exception ex)
