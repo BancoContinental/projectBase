@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ public class FechasRepository : IFechasRepository
     public FechasRepository(OracleDbContext db, IConfiguration configuration)
     {
         _db = db;
-        _connectionStringConsulta = configuration.GetConnectionString("Oracle");
+        _connectionStringConsulta = configuration.GetConnectionString("Active");
     }
 
     public async Task<bool> GetDiaHabil(DateTime fecha)
@@ -43,5 +42,5 @@ public class FechasRepository : IFechasRepository
     }
 
     public async Task<List<Feriado>> GetFeriado(DateOnly fecha)
-        => await _db.Feriados.Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
+        => await _db.Feriados.AsNoTracking().Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
 }

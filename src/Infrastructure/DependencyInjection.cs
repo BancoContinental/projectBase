@@ -13,7 +13,7 @@ public static class DependencyInjection
     {
         var config = services.BuildServiceProvider().GetService<IConfiguration>();
         services.AddDbContext<OracleDbContext>(o =>
-            o.UseOracle(config.GetConnectionString("Oracle")));
+            o.UseOracle(config.GetConnectionString("Active")));
 
         services.AddTransient<IFechasRepository, FechasRepository>();
 
