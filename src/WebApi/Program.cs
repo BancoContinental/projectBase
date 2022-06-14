@@ -5,6 +5,7 @@ using Continental.API.WebApi.Dependencies;
 using Continental.API.WebApi.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
@@ -21,11 +22,9 @@ try
     builder.Services.AddHeaderPropagation()
         .AddHttpContextAccessor()
         .AddHealthChecks(builder.Configuration)
-        .AgregarConfiguraciones(builder.Configuration)
         .AgregarCore()
         .AgregarInfraestructura()
         .AgregarDocumentacionSwagger(builder.Configuration["Serilog:Properties:ApplicationName"])
-        .AgregarVersionamientoApi(1, 0)
         .AgregarAutoMapper()
         .AddControllers()
         .AgregarFluentValidation(builder.Services)

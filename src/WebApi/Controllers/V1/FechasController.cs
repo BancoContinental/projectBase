@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Continental.API.WebApi.Controllers.V1;
 
-[ApiVersion("1.0")]
 public class FechasController : BaseApiController
 {
     private readonly ILogger<FechasController> _logger;
