@@ -14,17 +14,23 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace Continental.API.Infrastructure.Repositories;
 
-public class FechasRepository : IFechasRepository
+public class FechasReadOnlyRepository : IFechasReadOnlyRepository
 {
-    private readonly OracleDbContext _db;
+    private readonly IAppDbContext _db;
     private readonly string _connectionStringConsulta;
 
-    public FechasRepository(OracleDbContext db, IConfiguration configuration)
+    public FechasReadOnlyRepository(IAppDbContext db, IConfiguration configuration)
     {
         _db = db;
         _connectionStringConsulta = configuration.GetConnectionString("Active");
     }
 
+    /// <summary>
+    /// Esta funcion se debe aprobar por excepcion en el Pull Request.
+    /// Los repositorios ReadOnly solo deben contener selects
+    /// </summary>
+    /// <param name="fecha">Fecha a consultar</param>
+    /// <returns>True si es dia habil</returns>
     public async Task<bool> GetDiaHabil(DateTime fecha)
     {
         using (var connection = new OracleConnection(_connectionStringConsulta))
@@ -42,5 +48,5 @@ public class FechasRepository : IFechasRepository
     }
 
     public async Task<List<Feriado>> GetFeriado(DateOnly fecha)
-        => await _db.Feriados.AsNoTracking().Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
+        => await _db.QueryDbContext.Feriados.AsNoTracking().Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
 }

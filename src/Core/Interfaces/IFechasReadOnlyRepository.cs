@@ -6,7 +6,7 @@ using Continental.API.Core.Entities;
 
 namespace Continental.API.Core.Interfaces;
 
-public interface IFechasRepository
+public interface IFechasReadOnlyRepository
 {
     Task<bool> GetDiaHabil(DateTime fecha);
     Task<List<Feriado>> GetFeriado(DateOnly fecha);

@@ -3,30 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Data;
 
-public class OracleDbContext : DbContext
+public interface IOracleQueryDbContext
 {
-    private readonly string _connectionString;
+    DbSet<Feriado> Feriados { get; set; }
+}
 
-    public OracleDbContext(string connectionString)
-    {
-        _connectionString = connectionString;
-    }
-
-    public OracleDbContext(DbContextOptions<OracleDbContext> options) : base(options)
+/// <summary>
+/// DbContext para lecturas de la base. Debe usar conexion a ACTIVE
+/// </summary>
+public class OracleQueryDbContext : DbContext, IOracleQueryDbContext
+{
+    public OracleQueryDbContext(DbContextOptions<OracleQueryDbContext> options) : base(options)
     {
     }
 
     public DbSet<Feriado> Feriados { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseOracle(_connectionString);
-        }
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

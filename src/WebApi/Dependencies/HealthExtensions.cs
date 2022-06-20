@@ -31,7 +31,7 @@ public static class Extension
         var builder = services.AddHealthChecks();
 
         builder.AddCheck("self", () => HealthCheckResult.Healthy());
-        builder.AddDbContextCheck<OracleDbContext>();
+        builder.AddDbContextCheck<OracleQueryDbContext>();
 
         return services;
     }
