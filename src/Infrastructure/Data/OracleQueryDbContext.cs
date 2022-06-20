@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Data;
 
-public interface IOracleQueryDbContext
+public interface IOracleQueriesDbContext
 {
     DbSet<Feriado> Feriados { get; set; }
 }
@@ -11,9 +11,9 @@ public interface IOracleQueryDbContext
 /// <summary>
 /// DbContext para lecturas de la base. Debe usar conexion a ACTIVE
 /// </summary>
-public class OracleQueryDbContext : DbContext, IOracleQueryDbContext
+public class OracleQueriesDbContext : DbContext, IOracleQueriesDbContext
 {
-    public OracleQueryDbContext(DbContextOptions<OracleQueryDbContext> options) : base(options)
+    public OracleQueriesDbContext(DbContextOptions<OracleQueriesDbContext> options) : base(options)
     {
     }
 

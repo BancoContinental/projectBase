@@ -12,14 +12,14 @@ public static class DependencyInjection
     public static IServiceCollection AgregarInfraestructura(this IServiceCollection services)
     {
         var config = services.BuildServiceProvider().GetService<IConfiguration>();
-        services.AddDbContext<IOracleCommandDbContext, OracleCommandDbContext>(o =>
+        services.AddDbContext<IOracleCommandsDbContext, OracleCommandsDbContext>(o =>
             o.UseOracle(config.GetConnectionString("Oracle")));
-        services.AddDbContext<IOracleQueryDbContext, OracleQueryDbContext>(o =>
+        services.AddDbContext<IOracleQueriesDbContext, OracleQueriesDbContext>(o =>
             o.UseOracle(config.GetConnectionString("Active")));
 
         services.AddScoped<IAppDbContext, AppDbContext>();
 
-        services.AddTransient<IFechasReadOnlyRepository, FechasReadOnlyRepository>();
+        services.AddTransient<IFechasQueriesRepository, FechasQueriesRepository>();
 
         return services;
     }

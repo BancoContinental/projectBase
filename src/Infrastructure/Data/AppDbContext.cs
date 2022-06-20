@@ -2,12 +2,12 @@
 
 public interface IAppDbContext
 {
-    IOracleCommandDbContext CommandDbContext { get; set; }
-    IOracleQueryDbContext QueryDbContext { get; set; }
+    IOracleCommandsDbContext CommandsDbContext { get; set; }
+    IOracleQueriesDbContext QueriesDbContext { get; set; }
 }
 
 public class AppDbContext : IAppDbContext
 {
-    public IOracleCommandDbContext CommandDbContext { get; set; }
-    public IOracleQueryDbContext QueryDbContext { get; set; }
+    public IOracleCommandsDbContext CommandsDbContext { get; set; }
+    public IOracleQueriesDbContext QueriesDbContext { get; set; }
 }

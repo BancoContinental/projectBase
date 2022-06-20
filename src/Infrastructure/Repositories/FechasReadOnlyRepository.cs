@@ -14,12 +14,12 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace Continental.API.Infrastructure.Repositories;
 
-public class FechasReadOnlyRepository : IFechasReadOnlyRepository
+public class FechasQueriesRepository : IFechasQueriesRepository
 {
     private readonly IAppDbContext _db;
     private readonly string _connectionStringConsulta;
 
-    public FechasReadOnlyRepository(IAppDbContext db, IConfiguration configuration)
+    public FechasQueriesRepository(IAppDbContext db, IConfiguration configuration)
     {
         _db = db;
         _connectionStringConsulta = configuration.GetConnectionString("Active");
@@ -48,5 +48,5 @@ public class FechasReadOnlyRepository : IFechasReadOnlyRepository
     }
 
     public async Task<List<Feriado>> GetFeriado(DateOnly fecha)
-        => await _db.QueryDbContext.Feriados.AsNoTracking().Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
+        => await _db.QueriesDbContext.Feriados.AsNoTracking().Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
 }

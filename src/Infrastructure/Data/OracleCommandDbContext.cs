@@ -2,16 +2,16 @@
 
 namespace Continental.API.Infrastructure.Data;
 
-public interface IOracleCommandDbContext
+public interface IOracleCommandsDbContext
 {
 }
 
 /// <summary>
 /// Db Context para inserts, updates, deletes
 /// </summary>
-public class OracleCommandDbContext : DbContext, IOracleCommandDbContext
+public class OracleCommandsDbContext : DbContext, IOracleCommandsDbContext
 {
-    public OracleCommandDbContext(DbContextOptions<OracleCommandDbContext> options) : base(options)
+    public OracleCommandsDbContext(DbContextOptions<OracleCommandsDbContext> options) : base(options)
     {
     }
 }

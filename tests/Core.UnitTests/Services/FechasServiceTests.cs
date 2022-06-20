@@ -14,13 +14,13 @@ namespace Core.UnitTests.Services;
 [TestFixture]
 public class FechasServiceTests
 {
-    private Mock<IFechasReadOnlyRepository> _repository;
+    private Mock<IFechasQueriesRepository> _repository;
     private FechasService _service;
 
     [SetUp]
     public void SetUp()
     {
-        _repository = new Mock<IFechasReadOnlyRepository>();
+        _repository = new Mock<IFechasQueriesRepository>();
         _service    = new FechasService(_repository.Object);
     }
 
