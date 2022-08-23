@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Continental.API.WebApi.Controllers.V1;
+namespace Continental.API.WebApi.Controllers;
 
 public class FechasController : BaseApiController
 {
