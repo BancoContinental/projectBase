@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Continental.API.Core;
 
-public static class DependencyInjection
+public static class Install
 {
     public static IServiceCollection AgregarCore(this IServiceCollection services)
     {
