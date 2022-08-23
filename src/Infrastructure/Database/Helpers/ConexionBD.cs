@@ -1,4 +1,4 @@
-﻿namespace Continental.API.Infrastructure.DatabaseHelpers;
+﻿namespace Continental.API.Infrastructure.Database.Helpers;
 
 internal static class ConexionBD
 {

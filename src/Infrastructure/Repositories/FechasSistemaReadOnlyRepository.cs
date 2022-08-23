@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Continental.API.Core.Entities;
 using Continental.API.Core.Interfaces;
 using Continental.API.Infrastructure.Database;
-using Continental.API.Infrastructure.Database.DatabaseHelpers;
+using Continental.API.Infrastructure.Database.Helpers;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

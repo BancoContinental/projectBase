@@ -3,7 +3,7 @@ using System.Data;
 using Dapper;
 using Oracle.ManagedDataAccess.Client;
 
-namespace Continental.API.Infrastructure.DatabaseHelpers;
+namespace Continental.API.Infrastructure.Database.Helpers;
 
 internal class OracleDynamicParameters : SqlMapper.IDynamicParameters
 {
