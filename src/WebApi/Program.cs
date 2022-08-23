@@ -23,7 +23,7 @@ try
         .AddHttpContextAccessor()
         .AddHealthChecks(builder.Configuration)
         .AgregarCore()
-        .AgregarInfraestructura()
+        .AgregarInfraestructura(builder.Configuration)
         .AgregarDocumentacionSwagger(builder.Configuration["Serilog:Properties:ApplicationName"])
         .AgregarAutoMapper()
         .AddControllers()
@@ -43,7 +43,12 @@ try
     }
 
     app.UseSwagger();
-    app.UseSwaggerUI(o => { o.SwaggerEndpoint("/swagger/v1/swagger.json", builder.Configuration["Serilog:Properties:ApplicationName"]); });
+    app.UseSwaggerUI(o =>
+    {
+        o.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            builder.Configuration["Serilog:Properties:ApplicationName"]);
+    });
 
     app.UseSerilogRequestLogging(opts
         => opts.EnrichDiagnosticContext = LogRequestEnricher.EnrichFromRequest);

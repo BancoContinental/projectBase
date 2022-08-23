@@ -8,11 +8,11 @@ namespace Continental.API.Core.Services;
 
 public class FechasService : IFechasService
 {
-    private readonly IFechasQueriesRepository _queriesRepository;
+    private readonly IFechasSistemaRepository _sistemaRepository;
 
-    public FechasService(IFechasQueriesRepository queriesRepository)
+    public FechasService(IFechasSistemaRepository sistemaRepository)
     {
-        _queriesRepository = queriesRepository;
+        _sistemaRepository = sistemaRepository;
     }
 
     public async Task<DiaHabil> EsDiaHabil(DateTime fecha)
@@ -26,7 +26,7 @@ public class FechasService : IFechasService
             };
         }
 
-        var esDiaHabil = await _queriesRepository.GetDiaHabil(fecha);
+        var esDiaHabil = await _sistemaRepository.GetDiaHabil(fecha);
 
         var mensaje = _getMensaje(esDiaHabil);
 
@@ -41,7 +41,7 @@ public class FechasService : IFechasService
 
     public async Task<Feriado> GetFeriado(DateOnly fecha)
     {
-        var feriados = await _queriesRepository.GetFeriado(fecha);
+        var feriados = await _sistemaRepository.GetFeriado(fecha);
 
         if (feriados.Any())
         {

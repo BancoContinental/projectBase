@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Continental.API.Core.Entities;
 using Continental.API.Core.Interfaces;
-using Continental.API.Infrastructure.Data;
-using Continental.API.Infrastructure.DatabaseHelpers;
+using Continental.API.Infrastructure.Database;
+using Continental.API.Infrastructure.Database.DatabaseHelpers;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,12 +14,12 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace Continental.API.Infrastructure.Repositories;
 
-public class FechasQueriesRepository : IFechasQueriesRepository
+public class FechasSistemaReadOnlyRepository : IFechasSistemaRepository
 {
-    private readonly IAppDbContext _db;
+    private readonly IDbUnitOfWork _db;
     private readonly string _connectionStringConsulta;
 
-    public FechasQueriesRepository(IAppDbContext db, IConfiguration configuration)
+    public FechasSistemaReadOnlyRepository(IDbUnitOfWork db, IConfiguration configuration)
     {
         _db = db;
         _connectionStringConsulta = configuration.GetConnectionString("Active");
@@ -48,5 +48,8 @@ public class FechasQueriesRepository : IFechasQueriesRepository
     }
 
     public async Task<List<Feriado>> GetFeriado(DateOnly fecha)
-        => await _db.QueriesDbContext.Feriados.AsNoTracking().Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue)).ToListAsync();
+        => await _db.ActiveDbContext.Feriados
+            .AsNoTracking()
+            .Where(e => e.Fecha == fecha.ToDateTime(TimeOnly.MinValue))
+            .ToListAsync();
 }

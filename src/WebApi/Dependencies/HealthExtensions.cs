@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Continental.API.Infrastructure.Data;
+using Continental.API.Infrastructure.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +31,7 @@ public static class Extension
         var builder = services.AddHealthChecks();
 
         builder.AddCheck("self", () => HealthCheckResult.Healthy());
-        builder.AddDbContextCheck<OracleQueriesDbContext>();
+        builder.AddDbContextCheck<ActiveDbContext>();
 
         return services;
     }
