@@ -7,7 +7,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   registryNamespace: 'continentaldsv'
-  imageVersion: '0.1.0'
+  imageVersion: '$(Build.SourceVersion)'
   imageName: '$(Build.DefinitionName)'
   publishDirectory: './out'
   projectFile: 'src/WebApi/WebApi.csproj'
@@ -51,7 +51,7 @@ stages:
               arguments: '-c $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
 
           - task: SonarQubeAnalyze@4
-              displayName: 'sonar-analyze'
+            displayName: 'sonar-analyze'
 
           - task: SonarQubePublish@4
             displayName: 'sonar-publish'
@@ -76,12 +76,18 @@ stages:
               command: 'push'
               tags: '$(imageVersion)'
 
-          - task: CopyFiles@2
-            displayName: manifiestos
+          - task: helm@1
+            displayName: helm-package
             inputs:
-              SourceFolder: './deploy/'
-              Contents: '**'
-              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+                subCommand: 'package'
+                arguments: './deploy/k8s --app-version $(Build.SourceVersion) -d $(Build.ArtifactStagingDirectory)'
+
+          - task: Bash@3
+            displayName: cambiar-nombre
+            inputs:
+                targetType: 'inline'
+                script: 'mv *.tgz $(Build.DefinitionName).tgz'
+                workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
           - task: PublishBuildArtifacts@1
             name: publicar
