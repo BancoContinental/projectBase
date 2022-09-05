@@ -1,6 +1,6 @@
-﻿using System;
-using AutoMapper;
-using Continental.API.WebApi.Models;
+﻿using AutoMapper;
+using Continental.API.Core.Contracts.Data;
+using Continental.API.Core.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Continental.API.WebApi.Dependencies;
@@ -25,7 +25,6 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Core.Entities.DiaHabil, DiaHabil>().ReverseMap();
-        CreateMap<DateTime, string>().ConvertUsing(s => s.Date.ToString("dd/MM/yyyy"));
+        CreateMap<CuentaCorriente, CuentaCorrienteDto>();
     }
 }

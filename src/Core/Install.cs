@@ -8,7 +8,7 @@ public static class Install
 {
     public static IServiceCollection AgregarCore(this IServiceCollection services)
     {
-        services.AddTransient<IFechasService, FechasService>();
+        services.AddTransient<IMyService, MyService>();
 
         return services;
     }

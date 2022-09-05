@@ -33,7 +33,7 @@ public static class Install
 
         services.AddScoped<IDbUnitOfWork, AppDb>();
 
-        services.AddTransient<IFechasSistemaRepository, FechasSistemaReadOnlyRepository>();
+        services.AddScoped<IMyRepository, MyRepository>();
 
         return services;
     }
