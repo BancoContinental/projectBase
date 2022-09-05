@@ -1,4 +1,5 @@
-﻿using Continental.API.Core.Entities;
+﻿using System.Reflection;
+using Continental.API.Core.Contracts.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Database;
@@ -12,5 +13,12 @@ public sealed class OracleDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<Feriado> Feriados { get; set; }
+    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
 }

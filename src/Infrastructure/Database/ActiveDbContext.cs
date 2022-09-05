@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Continental.API.Core.Entities;
+using Continental.API.Core.Contracts.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Database;
@@ -13,24 +13,7 @@ public sealed class ActiveDbContext : DbContext, IApplicationDbContext
 {
     private static readonly ApplicationException ReadOnlyDatabaseException = new("Base de datos de solo lectura!");
 
-    public ActiveDbContext(DbContextOptions<ActiveDbContext> options) : base(options)
-    {
-    }
-
-    public DbSet<Feriado> Feriados { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<Feriado>(entity =>
-        {
-            entity.ToTable("FERIADO", "WILSON1");
-            entity.HasKey(p => p.Fecha);
-            entity.Property(e => e.Fecha).HasColumnName("FER_FECHA");
-            entity.Property(e => e.Dia).HasColumnName("FER_COMEN").IsUnicode(false);
-        });
-    }
+    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
 
     public override int SaveChanges() => throw ReadOnlyDatabaseException;
 
