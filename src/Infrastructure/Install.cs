@@ -1,6 +1,7 @@
 ﻿using System;
 using Continental.API.Core.Interfaces;
 using Continental.API.Infrastructure.Database;
+using Continental.API.Infrastructure.Database.Helpers;
 using Continental.API.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,8 @@ public static class Install
         });
 
         services.AddScoped<IDbUnitOfWork, AppDb>();
+
+        services.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
 
         services.AddScoped<IMyRepository, MyRepository>();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Continental.API.Infrastructure.Database.Helpers;
 
 namespace Continental.API.Infrastructure.Database;
 
@@ -18,10 +19,4 @@ public class AppDb : IDbUnitOfWork
         OracleDbContext  = dbContextResolverDelegate(TipoConexion.Oracle);
         ActiveDbContext = dbContextResolverDelegate(TipoConexion.Active);
     }
-}
-
-public enum TipoConexion
-{
-    Active,
-    Oracle
 }
