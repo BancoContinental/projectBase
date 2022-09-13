@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Continental.API.Core.Contracts.Data;
+using Continental.API.Core.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Database;
@@ -13,7 +13,7 @@ public sealed class OracleDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
+    public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

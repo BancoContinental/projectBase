@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Continental.API.Core.Contracts.Data;
+using Continental.API.Core.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Continental.API.Infrastructure.Database;
@@ -18,7 +18,7 @@ public sealed class ActiveDbContext : DbContext, IApplicationDbContext
 
     private static readonly ApplicationException ReadOnlyDatabaseException = new("Base de datos de solo lectura!");
 
-    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
+    public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
 
     public override int SaveChanges() => throw ReadOnlyDatabaseException;
 

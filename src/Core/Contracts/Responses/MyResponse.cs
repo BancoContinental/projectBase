@@ -1,6 +1,4 @@
-﻿using System;
-using Continental.API.Core.Contracts.Requests;
-using Continental.API.Core.Domain.Common;
+﻿using Continental.API.Core.Contracts.Requests;
 
 namespace Continental.API.Core.Contracts.Responses;
 

@@ -1,6 +1,6 @@
-﻿namespace Continental.API.Core.Contracts.Data;
+﻿namespace Continental.API.Core.Contracts.Entities;
 
-public class CuentaCorrienteDto
+public class CuentaCorriente
 {
     public string CuentaCompleta { get; set; }
     public string Sucursal { get; set; }

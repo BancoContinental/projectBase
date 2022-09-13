@@ -1,14 +1,12 @@
-﻿using System;
-using Continental.API.Core.Contracts.Data;
-using Continental.API.Core.Domain.Common;
+﻿using Continental.API.Core.Contracts.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Continental.API.Infrastructure.Database.Configuration;
 
-public class CuentaCorrienteConfiguration : IEntityTypeConfiguration<CuentaCorrienteDto>
+public class CuentaCorrienteConfiguration : IEntityTypeConfiguration<CuentaCorriente>
 {
-    public void Configure(EntityTypeBuilder<CuentaCorrienteDto> builder)
+    public void Configure(EntityTypeBuilder<CuentaCorriente> builder)
     {
         builder.ToTable("CCCCMA", "WILSON1");
         builder.HasKey(cc => cc.CuentaCompleta);
