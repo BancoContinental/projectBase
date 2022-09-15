@@ -10,18 +10,18 @@ namespace Continental.API.Infrastructure.Repositories;
 
 public class MyRepository : IMyRepository
 {
-    private readonly IDbUnitOfWork _db;
+    private readonly IAppDb _appDb;
     private readonly IConnectionStringFactory _connectionStringFactory;
 
-    public MyRepository(IDbUnitOfWork db, IConnectionStringFactory connectionStringFactory)
+    public MyRepository(IAppDb appDb, IConnectionStringFactory connectionStringFactory)
     {
-        _db                      = db;
+        _appDb                   = appDb;
         _connectionStringFactory = connectionStringFactory;
     }
 
     public async Task GetConEntityFramework()
     {
-        await _db.ActiveDbContext.CuentasCorrientes.ToListAsync();
+        await _appDb.ActiveDbContext.CuentasCorrientes.ToListAsync();
     }
 
     public async Task GetConDapper()

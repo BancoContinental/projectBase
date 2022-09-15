@@ -32,7 +32,7 @@ public static class Install
             };
         });
 
-        services.AddScoped<IDbUnitOfWork, AppDb>();
+        services.AddScoped<IAppDb, AppAppDb>();
 
         services.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
 
