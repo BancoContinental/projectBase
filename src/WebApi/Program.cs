@@ -1,4 +1,5 @@
 using System;
+using AspNetCore.Authentication.ApiKey;
 using Continental.API.Core;
 using Continental.API.Infrastructure;
 using Continental.API.WebApi.Dependencies;
@@ -34,6 +35,13 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+        .AddApiKeyInHeader<BancoContinentalApiKeyProvider>(options =>
+        {
+            options.Realm   = "Banco Continental";
+            options.KeyName = "X-API-KEY";
+        });
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -52,6 +60,9 @@ try
 
     app.UseSerilogRequestLogging(opts
         => opts.EnrichDiagnosticContext = LogRequestEnricher.EnrichFromRequest);
+
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     app.MapControllers();
     app.MapHealthChecks("/readiness", new HealthCheckOptions
