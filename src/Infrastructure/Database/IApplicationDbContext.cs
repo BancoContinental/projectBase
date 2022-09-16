@@ -7,7 +7,7 @@ namespace Continental.API.Infrastructure.Database;
 
 public interface IApplicationDbContext
 {
-    public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
+    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
     int SaveChanges();
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
 

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Continental.API.Core.Contracts.Responses;
+using Continental.API.Core.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Continental.API.WebApi.Dependencies;
@@ -23,5 +25,6 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<CuentaCorriente, CuentaCorrienteResponse>();
     }
 }

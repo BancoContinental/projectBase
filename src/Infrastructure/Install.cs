@@ -1,5 +1,6 @@
 ﻿using System;
 using Continental.API.Core.Interfaces;
+using Continental.API.Infrastructure.Clients;
 using Continental.API.Infrastructure.Database;
 using Continental.API.Infrastructure.Database.Helpers;
 using Continental.API.Infrastructure.Repositories;
@@ -36,7 +37,14 @@ public static class Install
 
         services.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
 
-        services.AddScoped<IMyRepository, MyRepository>();
+        services.AddScoped<ICuentaCorrienteRepository, CuentaCorrienteDbRepository>();
+
+        services.AddHttpClient("ApiSaldo", options =>
+        {
+            options.BaseAddress = new Uri(config.GetConnectionString("ApiSaldo"));
+        });
+
+        services.AddTransient<ISaldoService, SaldoApiService>();
 
         return services;
     }

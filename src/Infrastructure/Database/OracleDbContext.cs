@@ -13,7 +13,7 @@ public sealed class OracleDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
+    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

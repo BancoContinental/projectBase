@@ -18,7 +18,7 @@ public sealed class ActiveDbContext : DbContext, IApplicationDbContext
 
     private static readonly ApplicationException ReadOnlyDatabaseException = new("Base de datos de solo lectura!");
 
-    public DbSet<CuentaCorriente> CuentasCorrientes { get; set; }
+    public DbSet<CuentaCorrienteDto> CuentasCorrientes { get; set; }
 
     public override int SaveChanges() => throw ReadOnlyDatabaseException;
 
