@@ -21,6 +21,8 @@ public static class SwaggerDependencyInjection
                     Name  = "Departamento de Tecnologia"
                 }
             });
+
+            c.OperationFilter<ApiKeyFilter>();
             var xmlFile = Path.ChangeExtension(typeof(Program).Assembly.Location, ".xml");
             c.IncludeXmlComments(xmlFile);
         });

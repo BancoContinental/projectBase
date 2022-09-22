@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AspNetCore.Authentication.ApiKey;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Continental.API.WebApi.Dependencies;
 
@@ -17,7 +19,7 @@ public class BancoContinentalApiKeyProvider : IApiKeyProvider
     public BancoContinentalApiKeyProvider(ILogger<BancoContinentalApiKeyProvider> logger, IConfiguration configuration)
     {
         _logger = logger;
-        _apiKey = configuration.GetValue<string>("ApiKey");
+        _apiKey = configuration.GetValue<string>("ApiKeyConfiguration:key");
 
         if (_apiKey is null)
         {
@@ -56,5 +58,33 @@ public class BancoContinentalApiKey : IApiKey
     public BancoContinentalApiKey(string key)
     {
         Key = key;
+    }
+}
+
+public class ApiKeyFilter : IOperationFilter
+{
+    private readonly IConfiguration _configuration;
+
+    public ApiKeyFilter(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        if (operation.Parameters == null)
+            operation.Parameters = new List<OpenApiParameter>();
+
+        operation.Parameters.Add(new OpenApiParameter
+        {
+            Name = _configuration.GetValue<string>("ApiKeyConfiguration:Header"),
+            In   = ParameterLocation.Header,
+            Schema = new OpenApiSchema
+            {
+                Type = "string"
+            },
+            AllowEmptyValue = false,
+            Required        = true
+        });
     }
 }

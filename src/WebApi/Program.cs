@@ -38,8 +38,8 @@ try
     builder.Services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
         .AddApiKeyInHeader<BancoContinentalApiKeyProvider>(options =>
         {
-            options.Realm   = "Banco Continental";
-            options.KeyName = "X-API-KEY";
+            options.Realm   = builder.Configuration["ApiKeyConfiguration:Realm"];
+            options.KeyName = builder.Configuration["ApiKeyConfiguration:Header"];
         });
 
     var app = builder.Build();
