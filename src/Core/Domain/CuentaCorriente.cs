@@ -55,6 +55,10 @@ public class SaldoDisponible
     public decimal SaldoCombinadoFinal => SaldoPrincipal + SaldoCombinado;
 }
 
+/// <summary>
+/// Esta clase es totalmente opcional.
+/// Simplemente se implementa para tener un ejemplo de separacion de Domain y Entities
+/// </summary>
 public class CuentaCorrienteBuilder
 {
     private string _sucursal { get; set; }
