@@ -10,14 +10,13 @@ namespace Continental.API.WebApi.Dependencies;
 
 public static class FluentValidationDependencyInjection
 {
-    public static IServiceCollection AgregarFluentValidation(this IMvcBuilder mvc, IServiceCollection services)
+    public static IServiceCollection AgregarFluentValidation(this IServiceCollection services)
     {
-        mvc.AddFluentValidation(config =>
+        services.AddFluentValidationAutoValidation(config =>
         {
-            config.RegisterValidatorsFromAssemblyContaining<Program>();
             config.DisableDataAnnotationsValidation = true;
         });
-
+        services.AddValidatorsFromAssemblyContaining<Program>();
         services.AddTransient<IValidatorInterceptor, ValidatorInterceptor>();
 
         return services;

@@ -10,6 +10,6 @@ namespace Continental.API.WebApi.Controllers;
 [Route("api/[controller]")]
 public abstract class BaseApiController : Controller
 {
-    private readonly IMapper mapper;
-    protected IMapper Mapper => mapper ?? HttpContext.RequestServices.GetService<IMapper>();
+    private readonly IMapper _mapper = default;
+    protected IMapper Mapper => _mapper ?? HttpContext.RequestServices.GetService<IMapper>();
 }

@@ -14,7 +14,7 @@ public class BancoContinentalApiKeyProvider : IApiKeyProvider
 {
     private readonly ILogger<BancoContinentalApiKeyProvider> _logger;
     public string ApiKey => _apiKey;
-    private readonly string? _apiKey;
+    private readonly string _apiKey;
 
     public BancoContinentalApiKeyProvider(ILogger<BancoContinentalApiKeyProvider> logger, IConfiguration configuration)
     {
@@ -27,19 +27,19 @@ public class BancoContinentalApiKeyProvider : IApiKeyProvider
         }
     }
 
-    public async Task<IApiKey> ProvideAsync(string key)
+    public Task<IApiKey> ProvideAsync(string key)
     {
         try
         {
             if (key.Equals(_apiKey))
             {
                 _logger.LogDebug("Key valido");
-                return new BancoContinentalApiKey(key);
+                return Task.FromResult<IApiKey>(new BancoContinentalApiKey(key));
             }
 
             _logger.LogWarning("Key no valido");
 
-            return null;
+            return Task.FromResult<IApiKey>(null);
         }
         catch (Exception ex)
         {

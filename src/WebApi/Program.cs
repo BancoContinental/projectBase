@@ -27,9 +27,10 @@ try
         .AgregarInfraestructura(builder.Configuration)
         .AgregarDocumentacionSwagger(builder.Configuration["Serilog:Properties:ApplicationName"])
         .AgregarAutoMapper()
-        .AddControllers()
-        .AgregarFluentValidation(builder.Services)
-        .AddFeatureManagement();
+        .AgregarFluentValidation()
+        .AddControllers();
+
+    builder.Services.AddFeatureManagement();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
