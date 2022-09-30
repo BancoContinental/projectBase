@@ -8,4 +8,5 @@ data:
   ASPNETCORE_ENVIRONMENT: Production
   ASPNETCORE_URLS: http://0.0.0.0:80
   Serilog__WriteTo__1__Args__serverUrl: {{ .Values.config.seq | quote }}
+  ApiKeyConfiguration__Header: {{ .Values.config.apikey.header }}
 ---
