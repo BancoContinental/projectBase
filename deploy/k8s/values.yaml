@@ -1,0 +1,39 @@
+releaseName: continental-api
+
+config:
+  seq: http://seq.infra
+  oracle: VXNlciBJZD1BUElfQ09OU1VMVEE7UGFzc3dvcmQ9YS4xMjM0NTY7RGF0YSBTb3VyY2U9MTAuNi4yLjE0OC9kYml0YWRlcztNaW4gUG9vbCBTaXplPTA7Q29ubmVjdGlvbiBMaWZldGltZT0xMDtDb25uZWN0aW9uIFRpbWVvdXQ9MjA7SW5jciBQb29sIFNpemU9NTsgRGVjciBQb29sIFNpemU9NTsgTWF4IFBvb2wgU2l6ZT0yMDtWYWxpZGF0ZSBDb25uZWN0aW9uPXRydWU=
+  active: VXNlciBJZD1BUElfQ09OU1VMVEE7UGFzc3dvcmQ9YS4xMjM0NTY7RGF0YSBTb3VyY2U9MTAuNi4yLjE0OC9kYml0YWRlcztNaW4gUG9vbCBTaXplPTA7Q29ubmVjdGlvbiBMaWZldGltZT0xMDtDb25uZWN0aW9uIFRpbWVvdXQ9MjA7SW5jciBQb29sIFNpemU9NTsgRGVjciBQb29sIFNpemU9NTsgTWF4IFBvb2wgU2l6ZT0yMDtWYWxpZGF0ZSBDb25uZWN0aW9uPXRydWU=
+  apikey:
+    header: X-API-KEY
+    value: Q0FNQklBTUU=
+
+deployment:
+  replicas: 1
+  revisionHistoryLimit: 0
+
+service:
+  isNodePort: false
+  nodePort: 32244
+
+container:
+  registry: localhost:3000
+  imagePullPolicy: Always
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 768Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+serviceMesh:
+  active: false
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  # targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

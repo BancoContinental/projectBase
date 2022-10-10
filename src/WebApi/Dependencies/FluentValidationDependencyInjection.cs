@@ -6,56 +6,54 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Continental.API.WebApi.Dependencies
+namespace Continental.API.WebApi.Dependencies;
+
+public static class FluentValidationDependencyInjection
 {
-    public static class FluentValidationDependencyInjection
+    public static IServiceCollection AgregarFluentValidation(this IServiceCollection services)
     {
-        public static IServiceCollection AgregarFluentValidation(this IMvcBuilder mvc, IServiceCollection services)
+        services.AddFluentValidationAutoValidation(config =>
         {
-            mvc.AddFluentValidation(config =>
-            {
-                config.RegisterValidatorsFromAssemblyContaining<Startup>();
-                config.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-            });
+            config.DisableDataAnnotationsValidation = true;
+        });
+        services.AddValidatorsFromAssemblyContaining<Program>();
+        services.AddTransient<IValidatorInterceptor, ValidatorInterceptor>();
 
-            services.AddTransient<IValidatorInterceptor, ValidatorInterceptor>();
+        return services;
+    }
+}
 
-            return services;
-        }
+public class ValidatorInterceptor : IValidatorInterceptor
+{
+    private readonly ILogger<ValidatorInterceptor> _logger;
+
+    public ValidatorInterceptor(ILogger<ValidatorInterceptor> logger)
+    {
+        _logger = logger;
     }
 
-    public class ValidatorInterceptor : IValidatorInterceptor
+    public IValidationContext BeforeAspNetValidation(ActionContext actionContext, IValidationContext commonContext)
     {
-        private readonly ILogger<ValidatorInterceptor> _logger;
+        return commonContext;
+    }
 
-        public ValidatorInterceptor(ILogger<ValidatorInterceptor> logger)
+    public ValidationResult AfterAspNetValidation(ActionContext actionContext, IValidationContext validationContext,
+        ValidationResult result)
+    {
+        try
         {
-            _logger = logger;
-        }
-
-        public IValidationContext BeforeMvcValidation(ControllerContext controllerContext, IValidationContext commonContext)
-        {
-            return commonContext;
-        }
-
-        public ValidationResult AfterMvcValidation(ControllerContext controllerContext, IValidationContext commonContext,
-            ValidationResult result)
-        {
-            try
+            if (!result.IsValid)
             {
-                if (!result.IsValid)
-                {
-                    var model = commonContext.InstanceToValidate;
-                    var controller = $"{controllerContext.ActionDescriptor.ControllerName}.{controllerContext.ActionDescriptor.ActionName}";
-                    _logger.LogWarning("Modelo invalido en {controller} {@Request}", controller, model);
-                }
+                var model = validationContext.InstanceToValidate;
+                var controller = $"{actionContext.ActionDescriptor.DisplayName}";
+                _logger.LogWarning("Modelo invalido en {controller} {@Request}", controller, model);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ocurrio un error en ValidatorInterceptor");
-            }
-
-            return result;
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ocurrio un error en ValidatorInterceptor");
+        }
+
+        return result;
     }
 }

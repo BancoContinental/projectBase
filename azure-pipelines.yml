@@ -1,40 +1,97 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- master
+  - main
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
+  registryNamespace: 'continentaldsv'
+  imageVersion: '$(Build.SourceVersion)'
+  imageName: '$(Build.DefinitionName)'
+  publishDirectory: './out'
+  projectFile: 'src/WebApi/WebApi.csproj'
+  sonarProjectKey: '$(Build.DefinitionName)'
 
-steps:
-- task: DotNetCoreCLI@2
-  name: restore
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
+stages:
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: dotnet-restore
+            inputs:
+              command: 'restore'
 
-- task: DotNetCoreCLI@2
-  name: compilacion
-  inputs:
-    command: 'build'
-    arguments: '-c $(buildConfiguration)'
+          - task: SonarQubePrepare@4
+            inputs:
+              SonarQube: 'SonarQube'
+              scannerMode: 'MSBuild'
+              projectKey: '$(sonarProjectKey)'
 
-- task: DotNetCoreCLI@2
-  name: publicado
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '--no-restore -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)'
+          - task: DotNetCoreCLI@2
+            displayName: dotnet-build
+            inputs:
+              command: 'publish'
+              publishWebProjects: false
+              projects: '$(projectFile)'
+              arguments: '-c $(buildConfiguration) -o $(publishDirectory)'
+              zipAfterPublish: false
+              modifyOutputPath: false
 
-- task: PublishBuildArtifacts@1
-  name: artefactos
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+          - task: DotNetCoreCLI@2
+            displayName: 'dotnet-test'
+            inputs:
+              command: 'test'
+              projects: '**/*[Tt]ests/*.csproj'
+              arguments: '-c $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --logger trx'
+
+          - task: SonarQubeAnalyze@4
+            displayName: 'sonar-analyze'
+
+          - task: SonarQubePublish@4
+            displayName: 'sonar-publish'
+            inputs:
+              pollingTimeoutSec: '300'
+
+          - task: Docker@2
+            displayName: docker-build
+            inputs:
+              containerRegistry: 'docker01.bancontinental.com.py'
+              repository: '$(registryNamespace)/$(imageName)'
+              tags: '$(imageVersion)'
+              arguments: ' --build-arg artifact_path=$(publishDirectory)'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+
+          - task: Docker@2
+            displayName: docker-push
+            inputs:
+              containerRegistry: 'docker01.bancontinental.com.py'
+              repository: '$(registryNamespace)/$(imageName)'
+              command: 'push'
+              tags: '$(imageVersion)'
+
+          - task: helm@1
+            displayName: helm-package
+            inputs:
+                subCommand: 'package'
+                arguments: './deploy/k8s --app-version $(Build.SourceVersion) -d $(Build.ArtifactStagingDirectory)'
+
+          - task: Bash@3
+            displayName: cambiar-nombre
+            inputs:
+                targetType: 'inline'
+                script: 'mv *.tgz $(Build.DefinitionName).tgz'
+                workingDirectory: '$(Build.ArtifactStagingDirectory)'
+
+          - task: PublishBuildArtifacts@1
+            name: publicar
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'

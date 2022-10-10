@@ -1,32 +1,30 @@
-﻿using System;
-using AutoMapper;
-using Continental.API.WebApi.Models;
+﻿using AutoMapper;
+using Continental.API.Core.Contracts.Responses;
+using Continental.API.Core.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Continental.API.WebApi.Dependencies
+namespace Continental.API.WebApi.Dependencies;
+
+public static class AutoMapperDependencyInjection
 {
-    public static class AutoMapperDependencyInjection
+    public static IServiceCollection AgregarAutoMapper(this IServiceCollection services)
     {
-        public static IServiceCollection AgregarAutoMapper(this IServiceCollection services)
+        // Auto Mapper Configurations
+        var mappingConfig = new MapperConfiguration(mc =>
         {
-            // Auto Mapper Configurations
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
+            mc.AddProfile(new MappingProfile());
+        });
 
-            var mapper = mappingConfig.CreateMapper();
+        var mapper = mappingConfig.CreateMapper();
 
-            return services.AddSingleton(mapper);
-        }
+        return services.AddSingleton(mapper);
     }
+}
 
-    public class MappingProfile : Profile
+public class MappingProfile : Profile
+{
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<Core.Entities.DiaHabil, DiaHabil>().ReverseMap();
-            CreateMap<DateTime, string>().ConvertUsing(s => s.Date.ToString("dd/MM/yyyy"));
-        }
+        CreateMap<CuentaCorriente, CuentaCorrienteResponse>();
     }
 }
