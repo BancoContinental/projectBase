@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using AspNetCore.Authentication.ApiKey;
 using Continental.API.Core;
 using Continental.API.Infrastructure;
@@ -14,6 +15,10 @@ using Serilog;
 
 try
 {
+    var ci = new CultureInfo("es-ES");
+    CultureInfo.DefaultThreadCurrentCulture   = ci;
+    CultureInfo.DefaultThreadCurrentUICulture = ci;
+
     var builder = WebApplication.CreateBuilder();
 
     // Serilog
